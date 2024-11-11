@@ -66,7 +66,7 @@ export const proxiedUrlFor = url => {
 };
 
 export const scaledThumbnailUrlFor = (url, width, height) => {
-  if (configs.RETICULUM_SERVER.includes("hubs.local") && url.includes("hubs.local")) {
+  if (configs.RETICULUM_SERVER.includes("143.198.201.239") && url.includes("143.198.201.239")) {
     return url;
   }
 
@@ -677,7 +677,7 @@ export default class Project extends EventEmitter {
   }
 
   getSceneUrl(sceneId) {
-    if (configs.HUBS_SERVER === "localhost:8080" || configs.HUBS_SERVER === "hubs.local:8080") {
+    if (configs.HUBS_SERVER === "localhost:8080" || configs.HUBS_SERVER === "143.198.201.239:8080") {
       return `https://${configs.HUBS_SERVER}/scene.html?scene_id=${sceneId}`;
     } else {
       return `https://${configs.HUBS_SERVER}/scenes/${sceneId}`;
