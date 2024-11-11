@@ -30,6 +30,8 @@ import FloorPlanNode from "./editor/nodes/FloorPlanNode";
 import FloorPlanNodeEditor from "./ui/properties/FloorPlanNodeEditor";
 import ImageNode from "./editor/nodes/ImageNode";
 import ImageNodeEditor from "./ui/properties/ImageNodeEditor";
+import IFrameImageNode from "./editor/nodes/IFrameImageNode";
+import IFrameImageNodeEditor from "./ui/properties/IFrameImageNodeEditor";
 import VideoNode from "./editor/nodes/VideoNode";
 import VideoNodeEditor from "./ui/properties/VideoNodeEditor";
 import SpawnerNode from "./editor/nodes/SpawnerNode";
@@ -87,6 +89,7 @@ export function createEditor(api, settings) {
   editor.registerNode(SkyboxNode, SkyboxNodeEditor);
   editor.registerNode(FloorPlanNode, FloorPlanNodeEditor);
   editor.registerNode(ImageNode, ImageNodeEditor);
+  editor.registerNode(IFrameImageNode, IFrameImageNodeEditor);
   editor.registerNode(VideoNode, VideoNodeEditor);
   editor.registerNode(AudioNode, AudioNodeEditor);
   editor.registerNode(SpawnerNode, SpawnerNodeEditor);

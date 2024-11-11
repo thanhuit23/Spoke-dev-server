@@ -85,6 +85,7 @@ import GroupNode from "./nodes/GroupNode";
 import ModelNode from "./nodes/ModelNode";
 import VideoNode from "./nodes/VideoNode";
 import ImageNode from "./nodes/ImageNode";
+import IFrameImageNode from "./nodes/IFrameImageNode";
 import AudioNode from "./nodes/AudioNode";
 import LinkNode from "./nodes/LinkNode";
 import AssetManifestSource from "../ui/assets/AssetManifestSource";
@@ -1949,6 +1950,11 @@ export default class Editor extends EventEmitter {
       await node.load(url);
     } else if (contentType.startsWith("image/")) {
       node = new ImageNode(this);
+      this.getSpawnPosition(node.position);
+      this.addObject(node, parent, before);
+      await node.load(url);
+    } else if (contentType.startsWith("iframe/")) {
+      node = new IFrameImageNode(this);
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);
       await node.load(url);
