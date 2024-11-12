@@ -85,6 +85,10 @@ import GroupNode from "./nodes/GroupNode";
 import ModelNode from "./nodes/ModelNode";
 import VideoNode from "./nodes/VideoNode";
 import ImageNode from "./nodes/ImageNode";
+// Thanh add
+import IFrameImageNode from "./nodes/IFrameImageNode";
+import PDFViewerNode from "./nodes/PDFViewerNode";
+/////////////////////
 import AudioNode from "./nodes/AudioNode";
 import LinkNode from "./nodes/LinkNode";
 import AssetManifestSource from "../ui/assets/AssetManifestSource";
@@ -1094,8 +1098,7 @@ export default class Editor extends EventEmitter {
   reparent(object, newParent, newBefore, useHistory = true, emitEvent = true, selectObject = true) {
     if (!object.parent) {
       throw new Error(
-        `${object.nodeName || object.type} "${
-          object.name
+        `${object.nodeName || object.type} "${object.name
         }" has no parent. Reparent only works on objects that are currently in the scene.`
       );
     }
@@ -1949,6 +1952,16 @@ export default class Editor extends EventEmitter {
       await node.load(url);
     } else if (contentType.startsWith("image/")) {
       node = new ImageNode(this);
+      this.getSpawnPosition(node.position);
+      this.addObject(node, parent, before);
+      await node.load(url);
+    } else if (contentType.startsWith("iframe/")) {
+      node = new IFrameImageNode(this);
+      this.getSpawnPosition(node.position);
+      this.addObject(node, parent, before);
+      await node.load(url);
+    } else if (contentType.startsWith("pdf/")) {
+      node = new PDFViewerNode(this);
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);
       await node.load(url);

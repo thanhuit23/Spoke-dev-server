@@ -69,6 +69,23 @@ import HubsSoundPackSource from "./ui/assets/sources/HubsSoundPackSource";
 import TroikaTextNode from "./editor/nodes/TroikaTextNode";
 import TroikaTextNodeEditor from "./ui/properties/TroikaTextNodeEditor";
 
+// Thanh add
+import IFrameImageNode from "./editor/nodes/IFrameImageNode";
+import IFrameImageNodeEditor from "./ui/properties/IFrameImageNodeEditor";
+import PDFViewerNode from "./editor/nodes/PDFViewerNode";
+import PDFViewerNodeEditor from "./ui/properties/PDFViewerNodeEditor";
+
+////
+
+// add
+import GatewayNode from "./editor/nodes/GatewayNode";
+import GatewayNodeEditor from "./ui/properties/GatewayNodeEditor";
+import LearningFrameNode from "./editor/nodes/LearningFrameNode";
+import LearningFrameNodeEditor from "./ui/properties/LearningFrameNodeEditor";
+import TFCTextNode from "./editor/nodes/TFCTextNode";
+import TFCTextNodeEditor from "./ui/properties/TFCTextNodeEditor";
+
+
 export function createEditor(api, settings) {
   const editor = new Editor(api, settings);
 
@@ -111,6 +128,16 @@ export function createEditor(api, settings) {
   editor.registerSource(new BingVideosSource(api));
   editor.registerSource(new HubsSoundPackSource(editor));
   editor.registerSource(new TenorSource(api));
+
+  // add
+  editor.registerNode(GatewayNode, GatewayNodeEditor);
+  editor.registerNode(LearningFrameNode, LearningFrameNodeEditor);
+  editor.registerNode(TFCTextNode, TFCTextNodeEditor);
+
+  // Thanh add
+  editor.registerNode(IFrameImageNode, IFrameImageNodeEditor);
+  editor.registerNode(PDFViewerNode, PDFViewerNodeEditor);
+  ////
 
   return editor;
 }
