@@ -49,7 +49,7 @@ function createHTTPSConfig() {
               },
               {
                 type: 2,
-                value: "hubs.local"
+                value: "localhost"
               }
             ]
           }
@@ -68,7 +68,7 @@ function createHTTPSConfig() {
   }
 }
 
-const defaultHostName = "hubs.local";
+const defaultHostName = "meta2.teacherville.co.kr";
 const host = process.env.HOST_IP || defaultHostName;
 const port = process.env.HOST_PORT || 9090;
 const internalHostname = process.env.INTERNAL_HOSTNAME || defaultHostName;
@@ -95,13 +95,19 @@ module.exports = env => {
       },
       before: function(app) {
         // be flexible with people accessing via a local reticulum on another port
-        app.use(cors({ origin: /hubs\.local(:\d*)?$/ }));
+        app.use(cors({ origin: /meta2\.teacherville\.co\.kr(:\d*)?$/ }));
       }
     },
 
     output: {
       filename: "assets/js/[name]-[chunkhash].js",
       publicPath: process.env.BASE_ASSETS_PATH || "/"
+    },
+
+    performance: {
+      hints: false, // false | "warning" | "error"
+      maxAssetSize : 500000000, // 250,000(250KB) --> 500,000,000(500MB)
+      maxEntrypointSize : 500000000, // 250,000(250KB) -> 500,000,000(500MB)
     },
 
     module: {

@@ -18,9 +18,13 @@
     "url": "https://github.com/mozilla/Spoke.git"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --mode development",
-    "start-moz": "cross-env IS_MOZ=true NODE_ENV=development webpack-dev-server --mode development",
-    "run-local-reticulum": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 ROUTER_BASE_PATH=/spoke BASE_ASSETS_PATH=https://hubs.local:9090/ HUBS_SERVER=hubs.local:4000 RETICULUM_SERVER=hubs.local:4000 yarn start",
+    "start": "cross-env NODE_ENV=development ROUTER_BASE_PATH=/spoke webpack-dev-server --mode development --https --cert certs/cert.pem --key certs/key.pem",
+    "start-moz": "cross-env IS_MOZ=true NODE_ENV=development webpack-dev-ser    ver --mode development",
+    "run-local-reticulum": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 ROUTER_BASE_PATH=/spoke BASE_ASSETS_PATH=https://meta2.teacherville.co.kr:9090/ HUBS_SERVER=meta2.teacherville.co.kr RETICULUM_SERVER=meta2.teacherville.co.kr yarn start",
+    "run-local-reticulum2": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 yarn start2",
+    "start2": "cross-env NODE_ENV=production webpack-dev-server --mode production --https --cert certs/cert.pem --key certs/key.pem",
+    "start_bk": "cross-env NODE_ENV=development webpack-dev-server --mode development",
+    "run-local-reticulum_bk": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 ROUTER_BASE_PATH=/spoke BASE_ASSETS_PATH=https://localhost:9090/ HUBS_SERVER=localhost:4000 RETICULUM_SERVER=localhost:4000 yarn start",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "bundle-analyzer": "cross-env NODE_ENV=production webpack-dev-server --mode=production --env.BUNDLE_ANALYZER",
     "precommit": "lint-staged",
