@@ -1,0 +1,191 @@
+import EditorNodeMixin from './EditorNodeMixin'; // Import the mixin for the editor node
+import Mesh, { ImageAlphaMode } from "../objects/Image";
+import spokeLogoSrc from "../../assets/spoke-icon.png";
+import { RethrownError } from "../utils/errors";
+import { getObjectPerfIssues, maybeAddLargeFileIssue } from "../utils/performance";
+
+export default class PDFViewerNode extends EditorNodeMixin(Mesh) {
+    static componentName = "pdfviewer"; // Set the component name to pdfviewer
+    static nodeName = "Inline PDF Viewer"; // Set the model name to Inline PDF Viewer
+
+    static initialElementProps = {
+        src: new URL(spokeLogoSrc, location).href
+    };
+
+    constructor(editor) {
+        super(editor)
+        this._canonicalUrl = "";
+        this.pdfViewerServer = "";
+        this.pdfFileUrl = "";
+        this.controls = true;
+        this.billboard = false;
+    }
+
+    get src() {
+        return this._canonicalUrl;
+    }
+
+    set src(value) {
+        this.load(value).catch(console.error);
+    }
+
+    onChange() {
+        this.onResize();
+    }
+
+    loadTexture(src) {
+        return this.editor.textureCache.get(src);
+    }
+
+    // This function is called when the node is serialized
+    serialize() {
+        const components = {
+            pdfviewer: {
+                src: this._canonicalUrl,
+                controls: this.controls, // Show controls for the PDF viewer
+                alphaMode: this.alphaMode, // Transparency mode
+                alphaCutoff: this.alphaCutoff, // Alpha cutoff
+                projection: this.projection, // Flat or spherical projection
+                pdfViewerServer: this.pdfViewerServer,
+                pdfFileUrl: this.pdfFileUrl
+            }
+        }
+
+        if (this.billboard) {
+            components.billboard = {};
+        }
+
+        return super.serialize(components);
+    }
+
+    // This function is called when the node is deserialized
+    static async deserialize(editor, json, loadAsync, onError) {
+        const node = await super.deserialize(editor, json);
+
+        const { src, projection, controls, alphaMode, alphaCutoff, pdfViewerServer, pdfFileUrl } = json.components.find(c => c.name === "pdfviewer").props;
+
+        if (json.components.find(c => c.name === "billboard")) {
+            node.billboard = true;
+        }
+
+        loadAsync(
+            (async () => {
+                await node.load(src, onError);
+                node.controls = controls || false;
+                node.alphaMode = alphaMode === undefined ? ImageAlphaMode.Blend : alphaMode;
+                node.alphaCutoff = alphaCutoff === undefined ? 0.5 : alphaCutoff;
+                node.projection = projection;
+                node.pdfViewerServer = pdfViewerServer;
+                node.pdfFileUrl = pdfFileUrl;
+            })()
+        );
+
+        return node;
+    }
+
+    // This function is called when the src of the node is loaded
+    async load(src, onError) {
+        const nextSrc = src || "";
+        if (nextSrc === this._canonicalUrl && nextSrc !== "") {
+            return;
+        }
+
+        this._canonicalUrl = nextSrc;
+        this.issues = [];
+        this._mesh.visiable = false;
+
+        this.hideErrorIcon();
+        this.hideLoadingCube();
+
+        try {
+            const { accessibleUrl, meta } = await this.editor.api.resolveMedia(src);
+
+            this.meta = meta;
+
+            this.updateAttribution();
+
+            await super.load(accessibleUrl);
+            this.issues = getObjectPerfIssues(this._mesh, false);
+
+            const perfEntries = performance.getEntriesByName(accessibleUrl);
+
+            if (perfEntries.length > 0) {
+                const imageSize = perfEntries[0].encodedBodySize;
+                maybeAddLargeFileIssue("image", imageSize, this.issues);
+            }
+        } catch (error) {
+            this.showErrorIcon();
+
+            const imageError = new RethrownError(`Error loading image ${this._canonicalUrl}`, error);
+
+            if (onError) {
+                onError(this, imageError);
+            }
+
+            console.error(imageError);
+
+            this.issues.push({ severity: "error", message: "Error loading image." });
+        }
+
+        this.editor.emit("objectsChanged", [this]);
+        this.editor.emit("selectionChanged");
+        this.hideLoadingCube();
+
+        return this;
+    }
+
+    copy(source, recursive = true) {
+        super.copy(source, recursive);
+
+        this.controls = source.controls;
+        this.billboard = source.billboard;
+        this.alphaMode = source.alphaMode;
+        this.alphaCutoff = source.alphaCutoff;
+        this._canonicalUrl = source._canonicalUrl;
+        this.pdfViewerServer = source.pdfViewerServer;
+        this.pdfFileUrl = source.pdfFileUrl;
+
+        return this;
+    }
+
+    prepareForExport() {
+        super.prepareForExport();
+
+        const imageData = {
+            src: this._canonicalUrl,
+            controls: this.controls,
+            alphaMode: this.alphaMode,
+            projection: this.projection
+        };
+
+        if (this.alphaMode === ImageAlphaMode.Mask) {
+            imageData.alphaCutoff = this.alphaCutoff;
+        }
+
+        this.addGLTFComponent("image", imageData);
+
+        this.addGLTFComponent("networked", {
+            id: this.uuid
+        });
+
+        if (this.billboard && this.projection === "flat") {
+            this.addGLTFComponent("billboard", {});
+        }
+
+        if (this.pdfViewerServer && this.pdfFileUrl) {
+            this.addGLTFComponent("pdfviewer", {
+                pdfViewerServer: this.pdfViewerServer,
+                pdfFileUrl: this.pdfFileUrl
+            });
+        }
+
+        this.replaceObject();
+    }
+
+    getRuntimeResourcesForStats() {
+        if (this._texture) {
+            return { textures: [this._texture], meshes: [this._mesh], materials: [this._mesh.material] };
+        }
+    }
+}
+
