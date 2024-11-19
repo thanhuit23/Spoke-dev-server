@@ -88,6 +88,8 @@ import ImageNode from "./nodes/ImageNode";
 // Thanh add
 import IFrameImageNode from "./nodes/IFrameImageNode";
 import PDFViewerNode from "./nodes/PDFViewerNode";
+import AnimationControlNode from "./nodes/AnimationControlNode";
+
 /////////////////////
 import AudioNode from "./nodes/AudioNode";
 import LinkNode from "./nodes/LinkNode";
@@ -1962,6 +1964,11 @@ export default class Editor extends EventEmitter {
       await node.load(url);
     } else if (contentType.startsWith("pdf/")) {
       node = new PDFViewerNode(this);
+      this.getSpawnPosition(node.position);
+      this.addObject(node, parent, before);
+      await node.load(url);
+    } else if (contentType.startsWith("animationcontrol/")) {
+      node = new AnimationControlNode(this);
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);
       await node.load(url);

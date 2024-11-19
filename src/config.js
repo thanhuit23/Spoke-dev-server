@@ -74,6 +74,8 @@ import IFrameImageNode from "./editor/nodes/IFrameImageNode";
 import IFrameImageNodeEditor from "./ui/properties/IFrameImageNodeEditor";
 import PDFViewerNode from "./editor/nodes/PDFViewerNode";
 import PDFViewerNodeEditor from "./ui/properties/PDFViewerNodeEditor";
+import AnimationControlNode from "./editor/nodes/AnimationControlNode";
+import AnimationControlNodeEditor from "./ui/properties/AnimationControlNodeEditor";
 
 ////
 
@@ -137,6 +139,7 @@ export function createEditor(api, settings) {
   // Thanh add
   editor.registerNode(IFrameImageNode, IFrameImageNodeEditor);
   editor.registerNode(PDFViewerNode, PDFViewerNodeEditor);
+  editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
   ////
 
   return editor;
