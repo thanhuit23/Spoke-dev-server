@@ -1,6 +1,6 @@
 import EditorNodeMixin from "./EditorNodeMixin";
 import { Object3D, PlaneBufferGeometry, MeshBasicMaterial, Mesh, DoubleSide } from "three";
-import linkIconUrl from "../../assets/link-icon.png";
+import controlIconUrl from "../../assets/control.png";
 import loadTexture from "../utils/loadTexture";
 
 let linkHelperTexture = null;
@@ -11,7 +11,7 @@ export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
     static nodeName = "Animation Control";
 
     static async load() {
-        linkHelperTexture = await loadTexture(linkIconUrl);
+        linkHelperTexture = await loadTexture(controlIconUrl);
     }
 
     static async deserialize(editor, json) {

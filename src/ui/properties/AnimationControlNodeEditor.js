@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import NodeEditor from "./NodeEditor";
 import InputGroup from "../inputs/InputGroup";
 import StringInput from "../inputs/StringInput";
-import { Link } from "styled-icons/fa-solid/Link";
+import { Gem } from "styled-icons/fa-solid/Gem";
 
 export default class AnimationControlNodeEditor extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ export default class AnimationControlNodeEditor extends Component {
     node: PropTypes.object
   };
 
-  static iconComponent = Link;
+  static iconComponent = Gem;
 
   static description = `Animation control for a 3d model.`;
 
