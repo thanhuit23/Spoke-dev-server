@@ -73,6 +73,9 @@ import TroikaTextNodeEditor from "./ui/properties/TroikaTextNodeEditor";
 import PDFViewerNode from "./editor/nodes/PDFViewerNode";
 import PDFViewerNodeEditor from "./ui/properties/PDFViewerNodeEditor";
 
+import AnimationControlNode from "./editor/nodes/AnimationControlNode";
+import AnimationControlNodeEditor from "./ui/properties/AnimationControlNodeEditor";
+
 export function createEditor(api, settings) {
   const editor = new Editor(api, settings);
 
@@ -106,6 +109,7 @@ export function createEditor(api, settings) {
   editor.registerNode(TroikaTextNode, TroikaTextNodeEditor);
   editor.registerNode(MirrorNode, MirrorNodeEditor);
   editor.registerNode(PDFViewerNode, PDFViewerNodeEditor);
+  editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
 
   editor.registerSource(new ElementsSource(editor));
   editor.registerSource(new MyAssetsSource(editor));
