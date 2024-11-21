@@ -1,6 +1,6 @@
 import EditorNodeMixin from "./EditorNodeMixin";
 import { Object3D, PlaneBufferGeometry, MeshBasicMaterial, Mesh, DoubleSide } from "three";
-import controlIconUrl from "../../assets/control.png";
+import controlIconUrl from "../../assets/play-button.png";
 import loadTexture from "../utils/loadTexture";
 
 let linkHelperTexture = null;
@@ -30,7 +30,7 @@ export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
         // Create a plane size 2x5
         // geometry.scale(1.25, 0.5, 1);        
         const material = new MeshBasicMaterial();
-        // material.map = linkHelperTexture;
+        material.map = linkHelperTexture;
         material.side = DoubleSide;
         material.transparent = true;
         super(editor, geometry, material);
