@@ -412,6 +412,11 @@ export default class ModelNode extends EditorNodeMixin(Model) {
       return ctx.animations.indexOf(this.model.animations[index]);
     });
 
+    const allClipIndices = this.model.animations.map(index => {
+      return ctx.animations.indexOf(index);
+    });
+    const allClipNames = this.model.animations.map(animation => animation.name);
+
     this.model.traverse(child => {
       const components = getComponents(child);
 
@@ -422,7 +427,13 @@ export default class ModelNode extends EditorNodeMixin(Model) {
 
     if (clipIndices.length > 0) {
       this.addGLTFComponent("loop-animation", {
-        activeClipIndices: clipIndices
+        activeClipIndices: clipIndices,
+        allClipIndices: allClipIndices,
+        allClipNames: allClipNames
+      });
+      this.addGLTFComponent("animation-index", {
+        clipIndices: allClipIndices,
+        clipNames: allClipNames
       });
     }
 

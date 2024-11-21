@@ -19,6 +19,10 @@ export default class AnimationControlNodeEditor extends Component {
     this.props.editor.setPropertySelected("animation_name", animation_name);
   };
 
+  onChangeAnimationTarget = animation_target => {
+    this.props.editor.setPropertySelected("animation_target", animation_target);
+  };
+
   render() {
     const node = this.props.node;
 
@@ -26,6 +30,9 @@ export default class AnimationControlNodeEditor extends Component {
       <NodeEditor description={AnimationControlNodeEditor.description} {...this.props}>
         <InputGroup name="Animation name">
           <StringInput value={node.animation_name} onChange={this.onChangeAnimationName} />
+        </InputGroup>
+        <InputGroup name="Animation Target">
+          <StringInput value={node.animation_target} onChange={this.onChangeAnimationTarget} />
         </InputGroup>
       </NodeEditor>
     );

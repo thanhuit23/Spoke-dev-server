@@ -17,9 +17,10 @@ export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
     static async deserialize(editor, json) {
         const node = await super.deserialize(editor, json);
 
-        const { animation_name } = json.components.find(c => c.name === "animationcontrol").props;
+        const { animation_name, animation_target } = json.components.find(c => c.name === "animationcontrol").props;
 
         node.animation_name = animation_name;
+        node.animation_target = animation_target;
 
         return node;
     }
@@ -27,9 +28,9 @@ export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
     constructor(editor) {
         const geometry = new PlaneBufferGeometry();
         // Create a plane size 2x5
-        geometry.scale(1.25, 0.5, 1);        
+        // geometry.scale(1.25, 0.5, 1);        
         const material = new MeshBasicMaterial();
-        material.map = linkHelperTexture;
+        // material.map = linkHelperTexture;
         material.side = DoubleSide;
         material.transparent = true;
         super(editor, geometry, material);
@@ -56,6 +57,7 @@ export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
         }
 
         this.animation_name = source.animation_name;
+        this.animation_target = source.animation_target;
 
         return this;
     }
@@ -63,7 +65,8 @@ export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
     serialize() {
         return super.serialize({
             animationcontrol: {
-                animation_name: this.animation_name
+                animation_name: this.animation_name,
+                animation_target: this.animation_target
             }
         });
     }
@@ -72,7 +75,8 @@ export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
         super.prepareForExport();
         this.remove(this.helper);
         this.addGLTFComponent("animationcontrol", {
-            animation_name: this.animation_name
+            animation_name: this.animation_name,
+            animation_target: this.animation_target
         });
         this.addGLTFComponent("animation-mixer");
         this.addGLTFComponent("networked", {
