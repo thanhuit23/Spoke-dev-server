@@ -4,7 +4,19 @@ import NodeEditor from "./NodeEditor";
 import InputGroup from "../inputs/InputGroup";
 import StringInput from "../inputs/StringInput";
 import { PlayCircle } from "styled-icons/fa-solid/PlayCircle";
+import SelectInput from "../inputs/SelectInput";
 
+
+const animationTypes = [
+  {
+    label: "Play",
+    value: "play"
+  },
+  {
+    label: "Play Loop",
+    value: "loop"
+  }
+];
 export default class AnimationControlNodeEditor extends Component {
   static propTypes = {
     editor: PropTypes.object,
@@ -23,6 +35,14 @@ export default class AnimationControlNodeEditor extends Component {
     this.props.editor.setPropertySelected("animation_target", animation_target);
   };
 
+  onChangeAnimationTarget = animation_type => {
+    this.props.editor.setPropertySelected("animation_type", animation_type);
+  };
+
+  onChangeProperty = (property, value) => {
+    this.props.editor.setPropertySelected(property, value);
+  };
+
   render() {
     const node = this.props.node;
 
@@ -33,6 +53,15 @@ export default class AnimationControlNodeEditor extends Component {
         </InputGroup>
         <InputGroup name="Animation Target">
           <StringInput value={node.animation_target} onChange={this.onChangeAnimationTarget} />
+        </InputGroup>
+        <InputGroup name="Animation Type">
+          <SelectInput
+            options={animationTypes}
+            value={node.animation_type}
+            onChange={value => {
+              this.onChangeProperty("animation_type", value);
+            }}
+          />
         </InputGroup>
       </NodeEditor>
     );
