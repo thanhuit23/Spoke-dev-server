@@ -91,6 +91,7 @@ import LinkNode from "./nodes/LinkNode";
 import AssetManifestSource from "../ui/assets/AssetManifestSource";
 import PDFViewerNode from "./nodes/PDFViewerNode";
 import AnimationControlNode from "./nodes/AnimationControlNode";
+import InformationNode from "./nodes/InformationNode";
 
 const tempMatrix1 = new Matrix4();
 const tempMatrix2 = new Matrix4();
@@ -1964,7 +1965,12 @@ export default class Editor extends EventEmitter {
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);
       await node.load(url);
-    }else if (contentType.startsWith("animationcontrol/")) {
+    } else if (contentType.startsWith("animationcontrol/")) {
+      node = new AnimationControlNode(this);
+      this.getSpawnPosition(node.position);
+      this.addObject(node, parent, before);
+      await node.load(url);
+    } else if (contentType.startsWith("information/")) {
       node = new AnimationControlNode(this);
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);

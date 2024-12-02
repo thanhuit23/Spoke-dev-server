@@ -76,6 +76,9 @@ import PDFViewerNodeEditor from "./ui/properties/PDFViewerNodeEditor";
 import AnimationControlNode from "./editor/nodes/AnimationControlNode";
 import AnimationControlNodeEditor from "./ui/properties/AnimationControlNodeEditor";
 
+import InformationNode from "./editor/nodes/InformationNode";
+import InformationNodeEditor from "./ui/properties/InformationNodeEditor";
+
 export function createEditor(api, settings) {
   const editor = new Editor(api, settings);
 
@@ -110,6 +113,7 @@ export function createEditor(api, settings) {
   editor.registerNode(MirrorNode, MirrorNodeEditor);
   editor.registerNode(PDFViewerNode, PDFViewerNodeEditor);
   editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
+  editor.registerNode(InformationNode, InformationNodeEditor);
 
   editor.registerSource(new ElementsSource(editor));
   editor.registerSource(new MyAssetsSource(editor));
