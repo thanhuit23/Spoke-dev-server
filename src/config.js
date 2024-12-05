@@ -78,6 +78,8 @@ import AnimationControlNodeEditor from "./ui/properties/AnimationControlNodeEdit
 
 import InformationNode from "./editor/nodes/InformationNode";
 import InformationNodeEditor from "./ui/properties/InformationNodeEditor";
+import InteractiveSpotLightNode from "./editor/nodes/InteractiveLightNode";
+import InteractiveSpotLightNodeEditor from "./ui/properties/InteractiveLightNodeEditor";
 
 export function createEditor(api, settings) {
   const editor = new Editor(api, settings);
@@ -114,6 +116,7 @@ export function createEditor(api, settings) {
   editor.registerNode(PDFViewerNode, PDFViewerNodeEditor);
   editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
   editor.registerNode(InformationNode, InformationNodeEditor);
+  editor.registerNode(InteractiveSpotLightNode, InteractiveSpotLightNodeEditor);
 
   editor.registerSource(new ElementsSource(editor));
   editor.registerSource(new MyAssetsSource(editor));

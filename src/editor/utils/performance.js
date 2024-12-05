@@ -20,7 +20,7 @@ function isVisible(components) {
 }
 
 function isLight(components) {
-  return components && (components["directional-light"] || components["point-light"] || components["spot-light"]);
+  return components && (components["directional-light"] || components["point-light"] || components["spot-light"] || components["interactive-spot-light"]);
 }
 
 function isLargeImage(width, height) {
