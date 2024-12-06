@@ -8,7 +8,7 @@ let linkHelperTexture = null;
 export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
     static componentName = "animationcontrol";
 
-    static nodeName = "Animation Control";
+    static nodeName = "Media Control 1";
 
     static async load() {
         linkHelperTexture = await loadTexture(controlIconUrl);
