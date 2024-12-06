@@ -117,6 +117,14 @@ export class ProjectGridItem extends Component {
     });
   };
 
+  onClickGrid = (url) => {
+    let password = prompt('비밀번호(비밀번호가 없는 경우 건너뛰기):');
+    if (password === "thanh@1990") {
+      const newUrl = window.origin + "/spoke" + url;
+      window.location.href = newUrl;
+    }
+  };
+
   render() {
     const { project, contextMenuId } = this.props;
     const creatorAttribution = project.attributions && project.attributions.creator;
@@ -129,7 +137,8 @@ export class ProjectGridItem extends Component {
             <h3>{project.name}</h3>
             {creatorAttribution && <p>{creatorAttribution}</p>}
           </Col>
-          {contextMenuId && (
+
+          {contextMenuId && !project.name.includes("thanh") && (
             <MenuButton onClick={this.onShowMenu}>
               <EllipsisV />
             </MenuButton>
@@ -139,13 +148,24 @@ export class ProjectGridItem extends Component {
     );
 
     if (contextMenuId) {
-      return (
-        <StyledProjectGridItem to={project.url}>
-          <StyledContextMenuTrigger id={contextMenuId} project={project} collect={collectMenuProps} holdToDisplay={-1}>
-            {content}
-          </StyledContextMenuTrigger>
-        </StyledProjectGridItem>
-      );
+      // Check if project.name has "thanh" in it
+      if (project.name.includes("thanh")) {
+        return (
+          <StyledProjectGridItem to={""} onClick={() => this.onClickGrid(project.url)}>
+            <StyledContextMenuTrigger id={contextMenuId} project={project} collect={collectMenuProps} holdToDisplay={-1}>
+              {content}
+            </StyledContextMenuTrigger>
+          </StyledProjectGridItem>
+        );
+      } else {
+        return (
+          <StyledProjectGridItem to={project.url}>
+            <StyledContextMenuTrigger id={contextMenuId} project={project} collect={collectMenuProps} holdToDisplay={-1}>
+              {content}
+            </StyledContextMenuTrigger>
+          </StyledProjectGridItem>
+        );
+      }
     } else {
       return <StyledProjectGridItem to={project.url}>{content}</StyledProjectGridItem>;
     }
