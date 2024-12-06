@@ -89,6 +89,7 @@ import ImageNode from "./nodes/ImageNode";
 import IFrameImageNode from "./nodes/IFrameImageNode";
 import PDFViewerNode from "./nodes/PDFViewerNode";
 import AnimationControlNode from "./nodes/AnimationControlNode";
+import InteractiveAreaNode from "./nodes/InteractiveAreaNode";
 
 /////////////////////
 import AudioNode from "./nodes/AudioNode";
@@ -1967,11 +1968,17 @@ export default class Editor extends EventEmitter {
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);
       await node.load(url);
-    } else if (contentType.startsWith("animationcontrol/")) {
+    } else if (contentType.startsWith("animationcontrol/")) { // Thanh add
       node = new AnimationControlNode(this);
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);
       await node.load(url);
+    } else if (contentType.startsWith("interactive-area/")) {
+      node = new InteractiveAreaNode(this);
+      this.getSpawnPosition(node.position);
+      this.addObject(node, parent, before);
+      await node.load(url); 
+      //
     } else if (contentType.startsWith("audio/")) {
       node = new AudioNode(this);
       this.getSpawnPosition(node.position);

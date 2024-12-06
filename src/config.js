@@ -76,7 +76,8 @@ import PDFViewerNode from "./editor/nodes/PDFViewerNode";
 import PDFViewerNodeEditor from "./ui/properties/PDFViewerNodeEditor";
 import AnimationControlNode from "./editor/nodes/AnimationControlNode";
 import AnimationControlNodeEditor from "./ui/properties/AnimationControlNodeEditor";
-
+import InteractiveAreaNode from "./editor/nodes/InteractiveAreaNode";
+import InteractiveAreaNodeEditor from "./ui/properties/InteractiveAreaNodeEditor";
 ////
 
 // add
@@ -140,6 +141,7 @@ export function createEditor(api, settings) {
   editor.registerNode(IFrameImageNode, IFrameImageNodeEditor);
   editor.registerNode(PDFViewerNode, PDFViewerNodeEditor);
   editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
+  editor.registerNode(InteractiveAreaNode, InteractiveAreaNodeEditor);
   ////
 
   return editor;
