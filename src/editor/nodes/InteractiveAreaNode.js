@@ -71,10 +71,10 @@ export default class InteractiveAreaNode extends EditorNodeMixin(Mesh) {
     prepareForExport() {
         super.prepareForExport();
         this.remove(this.interactiveArea);
-        this.addGLTFComponent(InteractiveAreaNode.componentName, {
-            triggerType: this.triggerType,
-            triggerTarget: this.triggerTarget
-        });
+        // this.addGLTFComponent(InteractiveAreaNode.componentName, {
+        //     triggerType: this.triggerType,
+        //     triggerTarget: this.triggerTarget
+        // });
         this.addGLTFComponent("networked", {
             id: this.uuid
         });

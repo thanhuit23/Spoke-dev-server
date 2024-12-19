@@ -76,11 +76,11 @@ export default class AnimationControlNode extends EditorNodeMixin(Object3D) {
     prepareForExport() {
         super.prepareForExport();
         this.remove(this.helper);
-        this.addGLTFComponent("animationcontrol", {
-            animation_name: this.animation_name,
-            animation_target: this.animation_target,
-            animation_type: this.animation_type
-        });
+        // this.addGLTFComponent("animationcontrol", {
+        //     animation_name: this.animation_name,
+        //     animation_target: this.animation_target,
+        //     animation_type: this.animation_type
+        // });
         this.addGLTFComponent("animation-mixer");
         this.addGLTFComponent("networked", {
             id: this.uuid

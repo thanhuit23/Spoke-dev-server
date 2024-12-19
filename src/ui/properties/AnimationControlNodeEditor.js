@@ -35,7 +35,7 @@ export default class AnimationControlNodeEditor extends Component {
     this.props.editor.setPropertySelected("animation_target", animation_target);
   };
 
-  onChangeAnimationTarget = animation_type => {
+  onChangeAnimationType = animation_type => {
     this.props.editor.setPropertySelected("animation_type", animation_type);
   };
 
