@@ -90,7 +90,7 @@ import IFrameImageNode from "./nodes/IFrameImageNode";
 import PDFViewerNode from "./nodes/PDFViewerNode";
 import AnimationControlNode from "./nodes/AnimationControlNode";
 import InteractiveAreaNode from "./nodes/InteractiveAreaNode";
-
+import SnapFrameNode from "./nodes/SnapFrameNode";
 /////////////////////
 import AudioNode from "./nodes/AudioNode";
 import LinkNode from "./nodes/LinkNode";
@@ -1977,7 +1977,12 @@ export default class Editor extends EventEmitter {
       node = new InteractiveAreaNode(this);
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);
-      await node.load(url); 
+      await node.load(url);
+    } else if (contentType.startsWith("snap-media-frame/")) {
+      node = new SnapFrameNode(this);
+      this.getSpawnPosition(node.position);
+      this.addObject(node, parent, before);
+      await node.load(url);
       //
     } else if (contentType.startsWith("audio/")) {
       node = new AudioNode(this);
