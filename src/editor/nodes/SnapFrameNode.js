@@ -31,7 +31,7 @@ export const SnapAction = {
   };
 
 export default class SnapFrameNode extends EditorNodeMixin(Object3D) {
-  static componentName = "snap-media-frame";
+  static componentName = "media-frame";
 
   static nodeName = "Snap Frame";
 
