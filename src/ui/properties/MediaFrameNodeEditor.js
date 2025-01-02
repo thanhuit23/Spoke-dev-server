@@ -4,6 +4,7 @@ import NodeEditor from "./NodeEditor";
 import { ObjectGroup } from "styled-icons/fa-solid/ObjectGroup";
 import InputGroup from "../inputs/InputGroup";
 import SelectInput from "../inputs/SelectInput";
+import StringInput from "../inputs/StringInput";
 import useSetPropertySelected from "./useSetPropertySelected";
 import { MediaType } from "../../editor/nodes/MediaFrameNode";
 import { SnapAction } from "../../editor/nodes/MediaFrameNode";
@@ -27,19 +28,33 @@ const snapActionOptions = [
   { label: "Teleport", value: SnapAction.TELEPORT }
 ];
 
+const snapConditionOptions = [
+  { label: "Yes", value: true },
+  { label: "No", value: false }
+];
+
 export default function MediaFrameNodeEditor(props) {
   const { node, editor } = props;
   const onChangeMediaType = useSetPropertySelected(editor, "mediaType");
   const onChangeSnapAction = useSetPropertySelected(editor, "snapAction");
+  const onChangeCondition = useSetPropertySelected(editor, "snapCondition");
 
   return (
     <NodeEditor description={MediaFrameNodeEditor.description} {...props}>
       <InputGroup name="Media Types" info="Limit what type of media this frame will capture">
         <SelectInput options={mediaTypeOptions} value={node.mediaType} onChange={onChangeMediaType} />
       </InputGroup>
-
+      <InputGroup name="Snap Condition" info="Should the snap condition be met for this frame to capture media">
+        <SelectInput options={snapConditionOptions} value={node.snapCondition} onChange={onChangeCondition} />
+      </InputGroup>
+      <InputGroup name="Snap condition data" info="The data to use for the snap condition">
+        <StringInput value={node.snapConditionData} onChange={useSetPropertySelected(editor, "snapConditionData")} />
+      </InputGroup>
       <InputGroup name="Snap Action" info="What action should be taken when the snap condition is met">
         <SelectInput options={snapActionOptions} value={node.snapAction} onChange={onChangeSnapAction} />
+      </InputGroup>
+      <InputGroup name="Snap action data" info="The data to use for the snap action">
+        <StringInput value={node.snapData} onChange={useSetPropertySelected(editor, "snapData")} />
       </InputGroup>
     </NodeEditor>
   );

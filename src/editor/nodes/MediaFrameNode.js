@@ -136,9 +136,13 @@ export default class MediaFrameNode extends EditorNodeMixin(Object3D) {
     return super.serialize({
       "media-frame": {
         mediaType: this.mediaType,
+        // Only allow specific media objects to snap to this frame
         snapCondition: this.snapCondition,
+        // The data to use for the snap condition
         snapConditionData: this.snapConditionData,
+        // The action to take when the snap condition is met
         snapAction: this.snapAction,
+        // The data to use for the snap action
         snapData: this.snapData        
       }
     });
