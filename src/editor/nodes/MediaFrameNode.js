@@ -19,10 +19,20 @@ export const MediaType = {
   PDF: "pdf"
 };
 
+export const SnapAction = {
+  ANIMATION: "animation",
+  MEDIA: "media",
+  LIGHT: "light",
+  SHOW: "show",
+  HIDE: "hide",
+  TELEPORT: "teleport",
+  NOTHING: "nothing"
+};
+
 export default class MediaFrameNode extends EditorNodeMixin(Object3D) {
   static componentName = "media-frame";
 
-  static nodeName = "Media Frame";
+  static nodeName = "Snap Frame";
 
   static _geometry = new BoxBufferGeometry();
 
@@ -30,6 +40,10 @@ export default class MediaFrameNode extends EditorNodeMixin(Object3D) {
     super(editor);
 
     this.mediaType = MediaType.ALL_2D;
+    this.snapCondition = false;
+    this.snapConditionData = null;
+    this.snapAction = SnapAction.NOTHING;
+    this.snapData = null;
 
     const box = new Mesh(
       MediaFrameNode._geometry,
@@ -99,6 +113,11 @@ export default class MediaFrameNode extends EditorNodeMixin(Object3D) {
     }
 
     this.mediaType = source.mediaType;
+    this.snapCondition = source.snapCondition;
+    this.snapConditionData = source.snapConditionData;
+    this.snapAction = source.snapAction;
+    this.snapData = source.snapData;
+
 
     super.copy(source, recursive);
 
@@ -116,7 +135,11 @@ export default class MediaFrameNode extends EditorNodeMixin(Object3D) {
   serialize() {
     return super.serialize({
       "media-frame": {
-        mediaType: this.mediaType
+        mediaType: this.mediaType,
+        snapCondition: this.snapCondition,
+        snapConditionData: this.snapConditionData,
+        snapAction: this.snapAction,
+        snapData: this.snapData        
       }
     });
   }
@@ -125,6 +148,11 @@ export default class MediaFrameNode extends EditorNodeMixin(Object3D) {
     const node = await super.deserialize(editor, json);
     const mediaFrame = json.components.find(c => c.name === "media-frame");
     node.mediaType = mediaFrame.props.mediaType;
+    node.snapCondition = mediaFrame.props.snapCondition;
+    node.snapConditionData = mediaFrame.props.snapConditionData;
+    node.snapAction = mediaFrame.props.snapAction;
+    node.snapData = mediaFrame.props.snapData;
+
     return node;
   }
 
@@ -133,6 +161,10 @@ export default class MediaFrameNode extends EditorNodeMixin(Object3D) {
     this.remove(this.helper);
     this.addGLTFComponent("media-frame", {
       mediaType: this.mediaType,
+      snapCondition: this.snapCondition,
+      snapConditionData: this.snapConditionData,
+      snapAction: this.snapAction,
+      snapData: this.snapData,
       bounds: new Vector3().copy(this.scale)
     });
     // We use scale to configure bounds, we don't actually want to set the node's scale
