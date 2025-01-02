@@ -31,15 +31,15 @@ export const SnapAction = {
   };
 
 export default class SnapFrameNode extends EditorNodeMixin(Object3D) {
-  static componentName = "media-frame";
+  static componentName = "snap-frame";
 
-  static nodeName = "Snap Frame";
+  static nodeName = "Snap Test";
 
   static _geometry = new BoxBufferGeometry();
 
   constructor(editor) {
     super(editor);
-
+    console.log("SnapFrameNode");
     this.mediaType = MediaType.ALL_2D;
     this.snapCondition = false;
     this.snapConditionData = null;
@@ -129,6 +129,7 @@ export default class SnapFrameNode extends EditorNodeMixin(Object3D) {
   }
 
   serialize() {
+    console.log("serialize SnapFrameNode");
     return super.serialize({
       "media-frame": {
         mediaType: this.mediaType
@@ -143,6 +144,7 @@ export default class SnapFrameNode extends EditorNodeMixin(Object3D) {
   }
 
   static async deserialize(editor, json) {
+    console.log("deserialize SnapFrameNode");
     const node = await super.deserialize(editor, json);
     const mediaFrame = json.components.find(c => c.name === "media-frame");
     node.mediaType = mediaFrame.props.mediaType;
