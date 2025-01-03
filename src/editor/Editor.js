@@ -1978,11 +1978,11 @@ export default class Editor extends EventEmitter {
       this.getSpawnPosition(node.position);
       this.addObject(node, parent, before);
       await node.load(url);
-    } else if (contentType.startsWith("snap-frame/")) {
-      node = new SnapFrameNode(this);
-      this.getSpawnPosition(node.position);
-      this.addObject(node, parent, before);
-      await node.load(url);
+    // } else if (contentType.startsWith("snap-frame/")) {
+    //   node = new SnapFrameNode(this);
+    //   this.getSpawnPosition(node.position);
+    //   this.addObject(node, parent, before);
+    //   await node.load(url);
       //
     } else if (contentType.startsWith("audio/")) {
       node = new AudioNode(this);

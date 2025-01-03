@@ -144,7 +144,7 @@ export function createEditor(api, settings) {
   editor.registerNode(PDFViewerNode, PDFViewerNodeEditor);
   editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
   editor.registerNode(InteractiveAreaNode, InteractiveAreaNodeEditor);
-  editor.registerNode(SnapFrameNode, SnapMediaNodeEditor);
+  // editor.registerNode(SnapFrameNode, SnapMediaNodeEditor);
   ////
 
   return editor;
