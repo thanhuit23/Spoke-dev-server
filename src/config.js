@@ -80,6 +80,8 @@ import InteractiveAreaNode from "./editor/nodes/InteractiveAreaNode";
 import InteractiveAreaNodeEditor from "./ui/properties/InteractiveAreaNodeEditor";
 import SnapFrameNode from "./editor/nodes/SnapFrameNode";
 import SnapMediaNodeEditor from "./ui/properties/SnapMediaNodeEditor";
+import ImageButtonNode from "./editor/nodes/ImageButtonNode";
+import ImageButtonNodeEditor from "./ui/properties/ImageButtonNodeEditor";
 ////
 
 // add
@@ -145,6 +147,7 @@ export function createEditor(api, settings) {
   editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
   editor.registerNode(InteractiveAreaNode, InteractiveAreaNodeEditor);
   // editor.registerNode(SnapFrameNode, SnapMediaNodeEditor);
+  editor.registerNode(ImageButtonNode, ImageButtonNodeEditor);
   ////
 
   return editor;
