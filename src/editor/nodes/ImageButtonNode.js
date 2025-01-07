@@ -32,8 +32,19 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             })()
         );
 
-        const { href } = json.components.find(c => c.name === ImageButtonNode.componentName).props;
+        const { href, triggerType, triggerTarget, triggerName, triggerValue, actionsAfterClick, actionsData } = json.components.find(c => c.name === ImageButtonNode.componentName).props;
         node.href = href === undefined ? "" : href;
+        node.triggerType = triggerType === undefined ? "" : triggerType;
+        node.triggerTarget = triggerTarget === undefined ? "" : triggerTarget;
+        node.triggerName = triggerName === undefined ? "" : triggerName;
+        node.triggerValue = triggerValue === undefined ? "" : triggerValue;
+        node.actionsAfterClick = actionsAfterClick === undefined ? [] : actionsAfterClick;
+        node.actionsData = actionsData === undefined ? {
+            audio: "",
+            animationTarget: "",
+            animationName: "",
+            animationValue: ""
+        } : actionsData;
 
         return node;
     }
@@ -42,9 +53,25 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
         super(editor);
 
         this._canonicalUrl = "";
+
         this.href = "";
-        this.controls = true;
+        this.triggerType = "link";
+        this.triggerTarget = "";
+        this.triggerName = "";
+        this.triggerValue = "";
+        this.actionsAfterClick = [];
+        this.actionsData = {
+            audio: "",
+            animationTarget: "",
+            animationName: "",
+            animationValue: ""
+        };
+
+        this.controls = false;
         this.billboard = false;
+        this.alphaMode = ImageAlphaMode.Blend;
+        this.alphaCutoff = 0.5;
+        this.projection = "flat";
     }
 
     get src() {
@@ -122,8 +149,16 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
         this.billboard = source.billboard;
         this.alphaMode = source.alphaMode;
         this.alphaCutoff = source.alphaCutoff;
+
         this._canonicalUrl = source._canonicalUrl;
+
         this.href = source.href;
+        this.triggerType = source.triggerType;
+        this.triggerTarget = source.triggerTarget;
+        this.triggerName = source.triggerName;
+        this.triggerValue = source.triggerValue;
+        this.actionsAfterClick = source.actionsAfterClick;
+        this.actionsData = source.actionsData;
 
         return this;
     }
@@ -132,23 +167,25 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
         const components = {
             [ImageButtonNode.componentName]: {
                 src: this._canonicalUrl,
+
                 controls: this.controls,
                 alphaMode: this.alphaMode,
                 alphaCutoff: this.alphaCutoff,
                 projection: this.projection,
-                href: this.href
+                
+                href: this.href,
+                triggerType: this.triggerType,
+                triggerTarget: this.triggerTarget,
+                triggerName: this.triggerName,
+                triggerValue: this.triggerValue,
+                actionsAfterClick: this.actionsAfterClick,
+                actionsData: this.actionsData
             }
         };
 
         if (this.billboard) {
             components.billboard = {};
         }
-
-        // if (this.href) {
-        //     components.link = { href: this.href };
-        // }
-
-        // components.link = null;
 
         return super.serialize(components);
     }
@@ -178,7 +215,15 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
         }
 
         if (this.href && this.projection === "flat") {
-            this.addGLTFComponent(ImageButtonNode.componentName, { href: this.href });
+            this.addGLTFComponent(ImageButtonNode.componentName, { 
+                href: this.href,
+                triggerType: this.triggerType,
+                triggerTarget: this.triggerTarget,
+                triggerName: this.triggerName,
+                triggerValue: this.triggerValue,
+                actionsAfterClick: this.actionsAfterClick,
+                actionsData: this.exportData
+            });
         }
 
         this.replaceObject();
