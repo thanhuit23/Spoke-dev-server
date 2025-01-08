@@ -28,7 +28,8 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
     static async deserialize(editor, json, loadAsync, onError) {
         const node = await super.deserialize(editor, json);
 
-        const props = json.components.find(c => c.name === ImageButtonNode.componentName)?.props || {};
+        const component = json.components.find(c => c.name === ImageButtonNode.componentName);
+        const props = component && component.props ? component.props : {};
         const { src, projection, controls, alphaMode, alphaCutoff, ...triggerProps } = props;
 
         if (json.components.some(c => c.name === "billboard")) {
@@ -39,8 +40,8 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             (async () => {
                 await node.load(src, onError);
                 node.controls = controls || false;
-                node.alphaMode = alphaMode ?? ImageAlphaMode.Blend;
-                node.alphaCutoff = alphaCutoff ?? 0.5;
+                node.alphaMode = alphaMode !== undefined ? alphaMode : ImageAlphaMode.Blend;
+                node.alphaCutoff = alphaCutoff !== undefined ? alphaCutoff : 0.5;
                 node.projection = projection;
             })()
         );
@@ -145,7 +146,7 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             await super.load(accessibleUrl);
             this.issues = getObjectPerfIssues(this._mesh, false);
 
-            const imageSize = performance.getEntriesByName(accessibleUrl)?.[0]?.encodedBodySize;
+            const imageSize = performance.getEntriesByName(accessibleUrl).find(entry => entry)?.encodedBodySize;
             if (imageSize) maybeAddLargeFileIssue("image", imageSize, this.issues);
         } catch (error) {
             this.handleLoadError(error, onError);

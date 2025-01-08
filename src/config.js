@@ -42,8 +42,8 @@ import ParticleEmitterNode from "./editor/nodes/ParticleEmitterNode";
 import ParticleEmitterNodeEditor from "./ui/properties/ParticleEmitterNodeEditor";
 import KitPieceNode from "./editor/nodes/KitPieceNode";
 import KitPieceNodeEditor from "./ui/properties/KitPieceNodeEditor";
-import SimpleWaterNode from "./editor/nodes/SimpleWaterNode";
-import SimpleWaterNodeEditor from "./ui/properties/SimpleWaterNodeEditor";
+// import SimpleWaterNode from "./editor/nodes/SimpleWaterNode";
+// import SimpleWaterNodeEditor from "./ui/properties/SimpleWaterNodeEditor";
 import AudioNode from "./editor/nodes/AudioNode";
 import AudioNodeEditor from "./ui/properties/AudioNodeEditor";
 import ScenePreviewCameraNode from "./editor/nodes/ScenePreviewCameraNode";
@@ -80,8 +80,8 @@ import InteractiveAreaNode from "./editor/nodes/InteractiveAreaNode";
 import InteractiveAreaNodeEditor from "./ui/properties/InteractiveAreaNodeEditor";
 import SnapFrameNode from "./editor/nodes/SnapFrameNode";
 import SnapMediaNodeEditor from "./ui/properties/SnapMediaNodeEditor";
-import ImageButtonNode from "./editor/nodes/ImageButtonNode";
-import ImageButtonNodeEditor from "./ui/properties/ImageButtonNodeEditor";
+// import ImageButtonNode from "./editor/nodes/ImageButtonNode";
+// import ImageButtonNodeEditor from "./ui/properties/ImageButtonNodeEditor";
 ////
 
 // add
@@ -118,7 +118,7 @@ export function createEditor(api, settings) {
   editor.registerNode(LinkNode, LinkNodeEditor);
   editor.registerNode(ParticleEmitterNode, ParticleEmitterNodeEditor);
   editor.registerNode(KitPieceNode, KitPieceNodeEditor);
-  editor.registerNode(SimpleWaterNode, SimpleWaterNodeEditor);
+  // editor.registerNode(SimpleWaterNode, SimpleWaterNodeEditor);
   editor.registerNode(ScenePreviewCameraNode, ScenePreviewCameraNodeEditor);
   editor.registerNode(MediaFrameNode, MediaFrameNodeEditor);
   editor.registerNode(AudioZoneNode, AudioZoneNodeEditor);
@@ -147,7 +147,7 @@ export function createEditor(api, settings) {
   editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
   editor.registerNode(InteractiveAreaNode, InteractiveAreaNodeEditor);
   // editor.registerNode(SnapFrameNode, SnapMediaNodeEditor);
-  editor.registerNode(ImageButtonNode, ImageButtonNodeEditor);
+  // editor.registerNode(ImageButtonNode, ImageButtonNodeEditor);
   ////
 
   return editor;
