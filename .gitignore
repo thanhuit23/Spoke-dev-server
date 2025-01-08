@@ -7,6 +7,8 @@ node_modules/
 dist/
 example/generated/
 example/imported/
+.certs/
+certs/
 .env
 release/spoke-linux
 release/spoke-macos
