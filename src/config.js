@@ -80,6 +80,8 @@ import InformationNode from "./editor/nodes/InformationNode";
 import InformationNodeEditor from "./ui/properties/InformationNodeEditor";
 import InteractiveSpotLightNode from "./editor/nodes/InteractiveLightNode";
 import InteractiveSpotLightNodeEditor from "./ui/properties/InteractiveLightNodeEditor";
+import ImageButtonNode from "./editor/nodes/ImageButtonNode";
+import ImageButtonNodeEditor from "./ui/properties/ImageButtonNodeEditor";
 
 export function createEditor(api, settings) {
   const editor = new Editor(api, settings);
@@ -117,6 +119,7 @@ export function createEditor(api, settings) {
   editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
   editor.registerNode(InformationNode, InformationNodeEditor);
   editor.registerNode(InteractiveSpotLightNode, InteractiveSpotLightNodeEditor);
+  editor.registerNode(ImageButtonNode, ImageButtonNodeEditor);
 
   editor.registerSource(new ElementsSource(editor));
   editor.registerSource(new MyAssetsSource(editor));
