@@ -19,7 +19,7 @@ export default class KitSource extends BaseSource {
   constructor(api, kitUrl) {
     super();
     this.api = api;
-    this.kitUrl = proxiedUrlFor(new URL(kitUrl, window.location).href);
+    this.kitUrl = kitUrl;
     this.component = KitSourcePanel;
     this.assets = [];
     this.tags = [];

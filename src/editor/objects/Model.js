@@ -106,7 +106,11 @@ export default class Model extends Object3D {
   }
 
   get clips() {
-    return this.model.animations;
+    if (this.model) {
+      return this.model.animations;
+    } else {
+      return [];
+    }
   }
 
   updateAnimationState() {
