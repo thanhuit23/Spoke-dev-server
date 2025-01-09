@@ -102,16 +102,16 @@ export default function ImageButtonNodeEditor(props) {
                 <>
                     <InputGroup name="Animation Target" info="Specify the target object for the animation.">
                         <StringInput value={node.triggerTarget} onChange={onChangeTriggerTarget} />
-                    </InputGroup>
-                    <InputGroup name="Animation Name" info="Enter the name of the animation to trigger.">
-                        <StringInput value={node.triggerName} onChange={onChangeTriggerName} />
-                    </InputGroup>
+                    </InputGroup>                    
                     <InputGroup name="Animation Value" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
                         <SelectInput
                             options={animationTypes}
                             value={node.triggerValue}
                             onChange={onChangeTriggerValue}
                         />
+                    </InputGroup>
+                    <InputGroup name="Animation Name" info="Enter the name of the animation to trigger.">
+                        <StringInput value={node.triggerName} onChange={onChangeTriggerName} />
                     </InputGroup>
                 </>
             )}
