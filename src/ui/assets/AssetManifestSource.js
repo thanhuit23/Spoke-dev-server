@@ -31,7 +31,7 @@ export default class AssetManifestSource extends BaseSource {
     this.editor = editor;
     this.id = manifestUrl;
     this.name = name;
-    this.manifestUrl = proxiedUrlFor(new URL(manifestUrl, window.location).href);
+    this.manifestUrl = manifestUrl;
     this.component = KitSourcePanel;
     this.assets = [];
     this.tags = [];
@@ -48,7 +48,7 @@ export default class AssetManifestSource extends BaseSource {
     }
 
     for (const asset of manifest.assets) {
-      const assetUrl = proxiedUrlFor(new URL(asset.url, this.manifestUrl).href);
+      const assetUrl = new URL(asset.url, this.manifestUrl).href;
       const nodeClass = assetTypeToNodeClass[asset.type];
       const nodeEditor = this.editor.nodeEditors.get(nodeClass);
 
