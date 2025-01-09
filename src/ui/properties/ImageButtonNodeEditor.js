@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import NodeEditor from "./NodeEditor";
 import InputGroup from "../inputs/InputGroup";
@@ -29,6 +29,59 @@ const animationTypes = [
     { label: "Stop", value: "stop" }
 ];
 
+
+function* treeWalker(editor) {
+    const stack = [];
+
+    stack.push({
+        depth: 0,
+        object: editor.scene,
+        childIndex: 0,
+        lastChild: true,
+        parentEnabled: true
+    });
+
+    while (stack.length !== 0) {
+        const { depth, object, childIndex, lastChild, parentEnabled } = stack.pop();
+
+        const NodeEditor = editor.getNodeEditor(object) || DefaultNodeEditor;
+        const iconComponent = NodeEditor.iconComponent || DefaultNodeEditor.iconComponent;
+
+        const isExpanded = true;
+        const enabled = parentEnabled && object.enabled;
+
+        yield {
+            id: object.id,
+            isLeaf: object.children.filter(c => c.isNode).length === 0,
+            isExpanded,
+            depth,
+            object,
+            iconComponent,
+            selected: editor.selected.indexOf(object) !== -1,
+            active: editor.selected.length > 0 && object === editor.selected[editor.selected.length - 1],
+            enabled,
+            childIndex,
+            lastChild
+        };
+
+        if (object.children.length !== 0 && isExpanded) {
+            for (let i = object.children.length - 1; i >= 0; i--) {
+                const child = object.children[i];
+
+                if (child.isNode) {
+                    stack.push({
+                        depth: depth + 1,
+                        object: child,
+                        childIndex: i,
+                        lastChild: i === 0,
+                        parentEnabled: enabled
+                    });
+                }
+            }
+        }
+    }
+}
+
 /**
  * ImageButtonNodeEditor
  * A React component for editing properties of an Image Button node.
@@ -36,7 +89,13 @@ const animationTypes = [
  */
 export default function ImageButtonNodeEditor(props) {
     const { editor, node } = props;
-
+    const [nodes, setNodes] = useState([]);
+    const [targetNames, setTargetNames] = useState([]);
+    const [targetAnimationNames, setTargetAnimationNames] = useState([]);
+    const [targetActionAnimationNames, setTargetActionAnimationNames] = useState([]);
+    const updateNodeHierarchy = useCallback(() => {
+        setNodes(Array.from(treeWalker(editor)));
+    }, [editor]);
     // Hook-based setters for node properties
     const onChangeSrc = useSetPropertySelected(editor, "src");
     const onChangeHref = useSetPropertySelected(editor, "href");
@@ -56,6 +115,50 @@ export default function ImageButtonNodeEditor(props) {
         node.actionsData[key] = value;
         onChangeActionsData(node.actionsData);
     };
+
+    useEffect(() => {
+        updateNodeHierarchy();
+    }, [updateNodeHierarchy]);
+
+    const handleTriggerTargetChange = (target) => {
+        // Update the triggerTarget property in the editor
+        onChangeTriggerTarget(target);
+        const targetValue = nodes.find(node => node.object.name === target);
+        const targetObject = targetValue.object;
+        const clipOptions =
+            targetObject.model && targetObject.model.animations
+                ? targetObject.model.animations.map((clip, index) => ({ label: clip.name, value: index }))
+                : [];
+        if (clipOptions.length == 0) {
+            clipOptions.unshift({ label: "None", value: -1 });
+        }
+        setTargetAnimationNames(clipOptions);
+    };
+
+    const handleAnimationTargetChange = (target) => {
+        // Update the triggerTarget property in the editor
+        setActionsData("animationTarget", target)
+        const targetValue = nodes.find(node => node.object.name === target);
+        const targetObject = targetValue.object;
+        const clipOptions =
+            targetObject.model && targetObject.model.animations
+                ? targetObject.model.animations.map((clip, index) => ({ label: clip.name, value: index }))
+                : [];
+        if (clipOptions.length == 0) {
+            clipOptions.unshift({ label: "None", value: -1 });
+        }
+        setTargetActionAnimationNames(clipOptions);
+    };
+
+    useEffect(() => {
+        const targetNamesTemp = [];
+        for (const node of nodes) {
+            if (node.object.isNode) {
+                targetNamesTemp.push({ label: node.object.name, value: node.object.name });
+            }
+        }
+        setTargetNames(targetNamesTemp);
+    }, [nodes]);
 
     // Rendering dynamic input fields based on triggerType or actions
     return (
@@ -90,7 +193,11 @@ export default function ImageButtonNodeEditor(props) {
             {node.triggerType === "scenario" && (
                 <>
                     <InputGroup name="Scenario Target" info="Specify the target scenario to trigger.">
-                        <StringInput value={node.triggerTarget} onChange={onChangeTriggerTarget} />
+                        <SelectInput
+                            options={targetNames}
+                            value={node.triggerTarget}
+                            onChange={handleTriggerTargetChange}
+                        />
                     </InputGroup>
                     <InputGroup name="Scenario Value" info="Define the value associated with the scenario.">
                         <StringInput value={node.triggerValue} onChange={onChangeTriggerValue} />
@@ -101,8 +208,12 @@ export default function ImageButtonNodeEditor(props) {
             {node.triggerType === "animation" && (
                 <>
                     <InputGroup name="Animation Target" info="Specify the target object for the animation.">
-                        <StringInput value={node.triggerTarget} onChange={onChangeTriggerTarget} />
-                    </InputGroup>                    
+                        <SelectInput
+                            options={targetNames}
+                            value={node.triggerTarget}
+                            onChange={handleTriggerTargetChange}
+                        />
+                    </InputGroup>
                     <InputGroup name="Animation Value" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
                         <SelectInput
                             options={animationTypes}
@@ -111,7 +222,10 @@ export default function ImageButtonNodeEditor(props) {
                         />
                     </InputGroup>
                     <InputGroup name="Animation Name" info="Enter the name of the animation to trigger.">
-                        <StringInput value={node.triggerName} onChange={onChangeTriggerName} />
+                        <SelectInput
+                            options={targetAnimationNames}
+                            value={node.triggerName}
+                            onChange={onChangeTriggerName} />
                     </InputGroup>
                 </>
             )}
@@ -140,14 +254,16 @@ export default function ImageButtonNodeEditor(props) {
 
             {node.actionsAfterClick?.some(action => action.value === 2) && (
                 <>
-                    <InputGroup name="Animation Target" info="Specify the target object for the animation.">
-                        <StringInput
+                    <InputGroup name="Animation Target" info="Select the action triggered by interacting with the image.">
+                        <SelectInput
+                            options={targetNames}
                             value={node.actionsData.animationTarget}
-                            onChange={(e) => setActionsData("animationTarget", e)}
+                            onChange={(e) => handleAnimationTargetChange(e)}
                         />
                     </InputGroup>
                     <InputGroup name="Animation Name" info="Enter the name of the animation to trigger.">
-                        <StringInput
+                        <SelectInput
+                            options={targetActionAnimationNames}
                             value={node.actionsData.animationName}
                             onChange={(e) => setActionsData("animationName", e)}
                         />
