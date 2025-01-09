@@ -285,7 +285,7 @@ export default class Project extends EventEmitter {
   async getContentType(url) {
     const result = await this.resolveUrl(url);
     const canonicalUrl = result.origin;
-    const accessibleUrl = proxiedUrlFor(canonicalUrl);
+    const accessibleUrl = canonicalUrl;
 
     return (
       (result.meta && result.meta.expected_content_type) ||
@@ -312,7 +312,7 @@ export default class Project extends EventEmitter {
         const result = await this.resolveUrl(absoluteUrl);
         canonicalUrl = result.origin;
         meta = result.meta;
-        accessibleUrl = proxiedUrlFor(canonicalUrl, index);
+        accessibleUrl = canonicalUrl;
 
         contentType =
           (result.meta && result.meta.expected_content_type) ||
@@ -323,13 +323,13 @@ export default class Project extends EventEmitter {
       }
 
       try {
-        if (contentType === "model/gltf+zip") {
+        if (contentType === "model/gltf+zip" || contentType === "application/octet-stream") {
           // TODO: Sketchfab object urls should be revoked after they are loaded by the glTF loader.
           const { getFilesFromSketchfabZip } = await import(
             /* webpackChunkName: "SketchfabZipLoader", webpackPrefetch: true */ "./SketchfabZipLoader"
           );
           const files = await getFilesFromSketchfabZip(accessibleUrl);
-          return { canonicalUrl, accessibleUrl: files["scene.gtlf"].url, contentType, files };
+          return { canonicalUrl, accessibleUrl: files["scene.gltf"].url, contentType, files };
         }
       } catch (error) {
         throw new RethrownError(`Error loading Sketchfab model "${accessibleUrl}"`, error);
@@ -425,7 +425,7 @@ export default class Project extends EventEmitter {
     const thumbnailedEntries = json.entries.map(entry => {
       if (entry.images && entry.images.preview && entry.images.preview.url) {
         if (entry.images.preview.type === "mp4") {
-          entry.images.preview.url = proxiedUrlFor(entry.images.preview.url);
+          entry.images.preview.url = entry.images.preview.url;
         } else {
           entry.images.preview.url = scaledThumbnailUrlFor(entry.images.preview.url, 200, 200);
         }
