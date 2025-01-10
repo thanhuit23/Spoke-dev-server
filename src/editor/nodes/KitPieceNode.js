@@ -317,43 +317,7 @@ export default class KitPieceNode extends EditorNodeMixin(Model) {
           this.editor.renderer.removeBatchedObject(this.model);
         }
 
-        try {
-          await super.load(accessibleUrl, nextPieceId, subPiecesConfig);
-        } catch (error) {
-          fetch(accessibleUrl)
-            .then((response) => response.json())
-            .then((gltfJson) => {
-              const nodes = gltfJson.nodes;
-              // Find the node corresponding to nextPieceId
-              const targetNode = nodes.find((node) => node.name === nextPieceId);
-
-              if (!targetNode) {
-                console.error(`Node with name "${nextPieceId}" not found in GLTF JSON.`);
-              }
-              console.log(`Found node: ${targetNode.name}`);
-
-              // Create a Three.js object based on the targetNode's data
-              const model = new THREE.Group();
-              model.name = targetNode.name;
-
-              // Apply transformation data from the targetNode (if any)
-              if (targetNode.translation) {
-                model.position.fromArray(targetNode.translation);
-              }
-              if (targetNode.rotation) {
-                model.quaternion.fromArray(targetNode.rotation);
-              }
-              if (targetNode.scale) {
-                model.scale.fromArray(targetNode.scale);
-              }
-
-              this.model = model;
-              console.log("Model created:", this.model);
-            })
-            .catch((error) => {
-              console.error("Error inspecting GLTF JSON:", error.message);
-            });
-        }
+        await super.load(accessibleUrl, nextPieceId, subPiecesConfig);
 
         if (this.model) {
           this.editor.renderer.addBatchedObject(this.model);
