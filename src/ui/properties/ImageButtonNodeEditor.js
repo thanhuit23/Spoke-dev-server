@@ -106,6 +106,22 @@ export default function ImageButtonNodeEditor(props) {
     const onChangeActionsAfterClick = useSetPropertySelected(editor, "actionsAfterClick");
     const onChangeActionsData = useSetPropertySelected(editor, "actionsData");
 
+    useEffect(() => {
+        // console.log("targetNames", targetNames);
+    }, [targetNames]);
+
+    useEffect(() => {
+        // console.log("targetAnimationNames", targetAnimationNames);
+    }, [targetAnimationNames]);
+
+    useEffect(() => {
+        // console.log("targetActionAnimationNames", targetActionAnimationNames);
+    }, [targetActionAnimationNames]);
+
+    useEffect(() => {
+        // console.log("actionsData", node.actionsData);        
+    }, [node.actionsData]);
+
     /**
      * Updates `actionsData` for a specific key and value.
      * @param {string} key - The key to update in actionsData.
@@ -116,18 +132,27 @@ export default function ImageButtonNodeEditor(props) {
         onChangeActionsData(node.actionsData);
     };
 
+    const setTargetAnimationName = (value) => {
+        node.triggerName = value;
+        onChangeTriggerName(node.triggerName);
+    };
+
     useEffect(() => {
         updateNodeHierarchy();
     }, [updateNodeHierarchy]);
 
     const handleTriggerTargetChange = (target) => {
+        // console.log("target", target);
         // Update the triggerTarget property in the editor
         onChangeTriggerTarget(target);
         const targetValue = nodes.find(node => node.object.name === target);
+        if (!targetValue || !targetValue.object) {
+            return;
+        }
         const targetObject = targetValue.object;
         const clipOptions =
             targetObject.model && targetObject.model.animations
-                ? targetObject.model.animations.map((clip, index) => ({ label: clip.name, value: index }))
+                ? targetObject.model.animations.map((clip, index) => ({ label: clip.name, value: clip.name }))
                 : [];
         if (clipOptions.length == 0) {
             clipOptions.unshift({ label: "None", value: -1 });
@@ -139,10 +164,13 @@ export default function ImageButtonNodeEditor(props) {
         // Update the triggerTarget property in the editor
         setActionsData("animationTarget", target)
         const targetValue = nodes.find(node => node.object.name === target);
+        if (!targetValue || !targetValue.object) {
+            return;
+        }
         const targetObject = targetValue.object;
         const clipOptions =
             targetObject.model && targetObject.model.animations
-                ? targetObject.model.animations.map((clip, index) => ({ label: clip.name, value: index }))
+                ? targetObject.model.animations.map((clip, index) => ({ label: clip.name, value: clip.name }))
                 : [];
         if (clipOptions.length == 0) {
             clipOptions.unshift({ label: "None", value: -1 });
@@ -158,6 +186,12 @@ export default function ImageButtonNodeEditor(props) {
             }
         }
         setTargetNames(targetNamesTemp);
+        if (node.actionsData.animationTarget) {
+            handleAnimationTargetChange(node.actionsData.animationTarget);
+        }
+        if (node.triggerTarget) {
+            handleTriggerTargetChange(node.triggerTarget);
+        }
     }, [nodes]);
 
     // Rendering dynamic input fields based on triggerType or actions
@@ -218,7 +252,7 @@ export default function ImageButtonNodeEditor(props) {
                         <SelectInput
                             options={targetAnimationNames}
                             value={node.triggerName}
-                            onChange={onChangeTriggerName} />
+                            onChange={(e) => setTargetAnimationName(e)} />
                     </InputGroup>
                     <InputGroup name="Animation Value" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
                         <SelectInput
