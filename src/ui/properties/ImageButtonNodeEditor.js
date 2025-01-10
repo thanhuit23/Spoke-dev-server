@@ -233,7 +233,7 @@ export default function ImageButtonNodeEditor(props) {
                             onChange={handleTriggerTargetChange}
                         />
                     </InputGroup>
-                    <InputGroup name="Scenario Value" info="Define the value associated with the scenario.">
+                    <InputGroup name="Scenario Step" info="Define the value associated with the scenario.">
                         <StringInput value={node.triggerValue} onChange={onChangeTriggerValue} />
                     </InputGroup>
                 </>
@@ -254,7 +254,7 @@ export default function ImageButtonNodeEditor(props) {
                             value={node.triggerName}
                             onChange={(e) => setTargetAnimationName(e)} />
                     </InputGroup>
-                    <InputGroup name="Animation Value" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
+                    <InputGroup name="Animation Type" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
                         <SelectInput
                             options={animationTypes}
                             value={node.triggerValue}
@@ -302,7 +302,7 @@ export default function ImageButtonNodeEditor(props) {
                             onChange={(e) => setActionsData("animationName", e)}
                         />
                     </InputGroup>
-                    <InputGroup name="Animation Value" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
+                    <InputGroup name="Animation Type" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
                         <SelectInput
                             options={animationTypes}
                             value={node.actionsData.animationValue}
