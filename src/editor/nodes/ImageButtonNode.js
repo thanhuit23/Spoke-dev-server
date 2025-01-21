@@ -256,17 +256,16 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             this.addGLTFComponent("billboard", {});
         }
 
-        if (this.href && this.projection === "flat") {
-            this.addGLTFComponent(ImageButtonNode.componentName, {
-                href: this.href,
-                triggerType: this.triggerType,
-                triggerTarget: this.triggerTarget,
-                triggerName: this.triggerName,
-                triggerValue: this.triggerValue,
-                actionsAfterClick: this.actionsAfterClick,
-                actionsData: this.actionsData
-            });
-        }
+
+        this.addGLTFComponent(ImageButtonNode.componentName, {
+            href: this.href,
+            triggerType: this.triggerType,
+            triggerTarget: this.triggerTarget,
+            triggerName: this.triggerName,
+            triggerValue: this.triggerValue,
+            actionsAfterClick: this.actionsAfterClick,
+            actionsData: this.actionsData
+        });
 
         this.replaceObject();
     }
