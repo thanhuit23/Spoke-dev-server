@@ -85,15 +85,15 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             audio: "",
             animationTarget: "",
             animationName: "",
-            animationValue: ""
+            animationValue: "",
+            transformTarget: "",
+            transformType: "",
+            transformValue: "x, y, z"
         };
 
         // Image display properties
-        this.controls = false;
+        this.controls = true;
         this.billboard = false;
-        this.alphaMode = ImageAlphaMode.Blend;
-        this.alphaCutoff = 0.5;
-        this.projection = "flat";
     }
 
     // Getter and setter for `src`
@@ -249,23 +249,27 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             imageData.alphaCutoff = this.alphaCutoff;
         }
 
+        // Add GLTF components for image data and networked data
         this.addGLTFComponent("image", imageData);
         this.addGLTFComponent("networked", { id: this.uuid });
 
+        // Add billboard component if the image is a billboard
         if (this.billboard && this.projection === "flat") {
             this.addGLTFComponent("billboard", {});
         }
 
-            this.addGLTFComponent(ImageButtonNode.componentName, {
-                href: this.href,
-                triggerType: this.triggerType,
-                triggerTarget: this.triggerTarget,
-                triggerName: this.triggerName,
-                triggerValue: this.triggerValue,
-                actionsAfterClick: this.actionsAfterClick,
-                actionsData: this.actionsData
-            });
+        // Add GLTF component for image button data
+        this.addGLTFComponent(ImageButtonNode.componentName, {
+            href: this.href,
+            triggerType: this.triggerType,
+            triggerTarget: this.triggerTarget,
+            triggerName: this.triggerName,
+            triggerValue: this.triggerValue,
+            actionsAfterClick: this.actionsAfterClick,
+            actionsData: this.actionsData
+        });
 
+        // Replace the object with a new one to ensure the GLTF components are applied
         this.replaceObject();
     }
 
