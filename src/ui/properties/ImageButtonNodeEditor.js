@@ -12,15 +12,15 @@ import AttributionNodeEditor from "./AttributionNodeEditor";
 // Constants for dropdown options
 const triggerTypes = [
     { label: "Scenario", value: "scenario" },
-    { label: "Link", value: "link" },
-    { label: "Iframe", value: "iframe" },
-    { label: "Animation", value: "animation" }
+    // { label: "Link", value: "link" },
+    // { label: "Iframe", value: "iframe" },
+    // { label: "Animation", value: "animation" }
 ];
 
 const actions = [
     { label: "Hide", value: 1 },
     { label: "Animation", value: 2 },
-    { label: "Audio", value: 3 }
+    // { label: "Audio", value: 3 }
 ];
 
 const animationTypes = [
@@ -234,6 +234,9 @@ export default function ImageButtonNodeEditor(props) {
                         />
                     </InputGroup>
                     <InputGroup name="Scenario Step" info="Define the value associated with the scenario.">
+                        <StringInput value={node.triggerName} onChange={onChangeTriggerName} />
+                    </InputGroup>
+                    <InputGroup name="Scenario Next Step" info="Define the next value associated with the scenario.">
                         <StringInput value={node.triggerValue} onChange={onChangeTriggerValue} />
                     </InputGroup>
                 </>
@@ -260,7 +263,7 @@ export default function ImageButtonNodeEditor(props) {
                             value={node.triggerValue}
                             onChange={onChangeTriggerValue}
                         />
-                    </InputGroup>                    
+                    </InputGroup>
                 </>
             )}
 
@@ -288,7 +291,17 @@ export default function ImageButtonNodeEditor(props) {
 
             {node.actionsAfterClick?.some(action => action.value === 2) && (
                 <>
-                    <InputGroup name="Animation Target" info="Select the action triggered by interacting with the image.">
+                    <InputGroup name="Play all animations" info="Play all animations in the scene.">
+
+                    </InputGroup>
+                    <InputGroup name="Animation Type" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
+                        <SelectInput
+                            options={animationTypes}
+                            value={node.actionsData.animationValue}
+                            onChange={(e) => setActionsData("animationValue", e)}
+                        />
+                    </InputGroup>
+                    {/* <InputGroup name="Animation Target" info="Select the action triggered by interacting with the image.">
                         <SelectInput
                             options={targetNames}
                             value={node.actionsData.animationTarget}
@@ -308,7 +321,7 @@ export default function ImageButtonNodeEditor(props) {
                             value={node.actionsData.animationValue}
                             onChange={(e) => setActionsData("animationValue", e)}
                         />
-                    </InputGroup>
+                    </InputGroup> */}
                 </>
             )}
 
