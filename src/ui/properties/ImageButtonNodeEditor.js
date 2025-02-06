@@ -20,7 +20,7 @@ const triggerTypes = [
 const actions = [
     { label: "Hide", value: 1 },
     { label: "Animation", value: 2 },
-    // { label: "Audio", value: 3 }
+    { label: "Audio", value: 3 }
 ];
 
 const animationTypes = [
