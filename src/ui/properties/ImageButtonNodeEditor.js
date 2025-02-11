@@ -5,6 +5,7 @@ import InputGroup from "../inputs/InputGroup";
 import StringInput from "../inputs/StringInput";
 import SelectInput from "../inputs/SelectInput";
 import ImageInput from "../inputs/ImageInput";
+import NumericInputGroup from "../inputs/NumericInputGroup";
 import { Square } from "styled-icons/fa-solid/Square";
 import useSetPropertySelected from "./useSetPropertySelected";
 import AttributionNodeEditor from "./AttributionNodeEditor";
@@ -342,6 +343,17 @@ export default function ImageButtonNodeEditor(props) {
                             onChange={(e) => setActionsData("transformValue", e)}
                         />
                     </InputGroup>
+                    <NumericInputGroup
+                        name="Transform Times: "
+                        info="Define how many times the button can be clicked to apply the transform. After the set limit, other 'After Click Action' tasks will be triggered."
+                        min={1}
+                        smallStep={1}
+                        mediumStep={2}
+                        largeStep={3}
+                        value={node.actionsData.transformTimes}
+                        displayPrecision={0}
+                        onChange={(e) => setActionsData("transformTimes", e)}
+                    />
                 </>
             )}
 
