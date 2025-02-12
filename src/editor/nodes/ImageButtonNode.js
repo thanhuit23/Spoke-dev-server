@@ -57,7 +57,11 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
                 audio: "",
                 animationTarget: "",
                 animationName: "",
-                animationValue: ""
+                animationValue: "",
+                transformTarget: "",
+                transformType: "",
+                transformValue: "0, 0, 0",
+                transformTimes: "1"
             }
         });
 
@@ -85,7 +89,11 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             audio: "",
             animationTarget: "",
             animationName: "",
-            animationValue: ""
+            animationValue: "",
+            transformTarget: "",
+            transformType: "",
+            transformValue: "0, 0, 0",
+            transformTimes: "1"
         };
 
         // Image display properties

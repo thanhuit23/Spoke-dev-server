@@ -8,6 +8,7 @@ import ImageInput from "../inputs/ImageInput";
 import { Square } from "styled-icons/fa-solid/Square";
 import useSetPropertySelected from "./useSetPropertySelected";
 import AttributionNodeEditor from "./AttributionNodeEditor";
+import NumericInputGroup from "../inputs/NumericInputGroup";
 
 // Constants for dropdown options
 const triggerTypes = [
@@ -20,7 +21,8 @@ const triggerTypes = [
 const actions = [
     { label: "Hide", value: 1 },
     { label: "Animation", value: 2 },
-    { label: "Audio", value: 3 }
+    { label: "Audio", value: 3 },
+    { label: "Transform", value: 4 }
 ];
 
 const animationTypes = [
@@ -29,6 +31,11 @@ const animationTypes = [
     { label: "Stop", value: "stop" }
 ];
 
+const transformTypes = [
+    // { label: "Rotate", value: "rotate" },
+    // { label: "Scale", value: "scale" },
+    { label: "Translate", value: "translate" }
+];
 
 function* treeWalker(editor) {
     const stack = [];
@@ -322,6 +329,44 @@ export default function ImageButtonNodeEditor(props) {
                             onChange={(e) => setActionsData("animationValue", e)}
                         />
                     </InputGroup> */}
+                </>
+            )}
+
+            {/* Additional inputs based on selected actions */}
+            {node.actionsAfterClick?.some(action => action.value === 4) && (
+                <>
+                    <InputGroup name="Transform Target" info="Select the target object for the transformation.">
+                        <SelectInput
+                            options={targetNames}
+                            value={node.actionsData.transformTarget}
+                            onChange={(e) => setActionsData("transformTarget", e)}
+                        />
+                    </InputGroup>
+                    <InputGroup name="Transform Type" info="Select the type of transformation to apply (e.g., Rotate, Scale, Translate).">
+                        <SelectInput
+                            options={transformTypes}
+                            value={node.actionsData.transformType}
+                            onChange={(e) => setActionsData("transformType", e)}
+                        />
+                    </InputGroup>
+                    <InputGroup name="Transform Value" info="Enter the values for the transformation (e.g., x, y, z).">
+                        <StringInput
+                            value={node.actionsData.transformValue || "0, 0, 0"}
+                            onChange={(e) => setActionsData("transformValue", e)}
+                        />
+                    </InputGroup>
+                    <NumericInputGroup
+                        name="Transform Times: "
+                        info="Define how many times the button can be clicked to apply the transform. After the set limit, other 'After Click Action' tasks will be triggered."
+                        min={1}
+                        smallStep={1}
+                        mediumStep={2}
+                        largeStep={3}
+                        value={node.actionsData.transformTimes || 1}
+                        displayPrecision={0}
+                        onChange={(e) => setActionsData("transformTimes", e)}
+                        
+                    />
                 </>
             )}
 
