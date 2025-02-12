@@ -350,9 +350,20 @@ export default function ImageButtonNodeEditor(props) {
                         smallStep={1}
                         mediumStep={2}
                         largeStep={3}
-                        value={node.actionsData.transformTimes}
+                        value={node.actionsData.transformTimes || 1}
                         displayPrecision={0}
                         onChange={(e) => setActionsData("transformTimes", e)}
+                    />
+                    <NumericInputGroup
+                        name="Transform Speed: "
+                        info="Define the speed of the transformation."
+                        min={0.0001}
+                        smallStep={0.0001}
+                        mediumStep={0.001}
+                        largeStep={0.01}
+                        value={node.actionsData.transformSpeed || 0.01}
+                        displayPrecision={0.0001}
+                        onChange={(e) => setActionsData("transformSpeed", e)}
                     />
                 </>
             )}
