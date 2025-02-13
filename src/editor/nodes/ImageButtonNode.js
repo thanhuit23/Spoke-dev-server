@@ -101,6 +101,9 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
         // Image display properties
         this.controls = true;
         this.billboard = false;
+        this.alphaMode = ImageAlphaMode.Blend;
+        this.alphaCutoff = 0.5;
+        this.projection = "flat";
     }
 
     // Getter and setter for `src`

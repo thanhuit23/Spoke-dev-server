@@ -337,12 +337,22 @@ export default function ImageButtonNodeEditor(props) {
                             onChange={(e) => setActionsData("transformType", e)}
                         />
                     </InputGroup>
-                    <InputGroup name="Transform Value" info="Enter the values for the transformation (e.g., x, y, z).">
-                        <StringInput
-                            value={node.actionsData.transformValue}
-                            onChange={(e) => setActionsData("transformValue", e)}
-                        />
-                    </InputGroup>
+                    {node.actionsData.transformType === "translate" && (
+                        <InputGroup name="Transform Value" info="Enter the values for the translation (e.g., x, y, z).">
+                            <StringInput
+                                value={node.actionsData.transformValue}
+                                onChange={(e) => setActionsData("transformValue", e)}
+                            />
+                        </InputGroup>
+                    )}
+                    {node.actionsData.transformType === "rotate" && (
+                        <InputGroup name="Transform Value" info="Enter the degree values for the rotation (e.g., x, y, z).">
+                            <StringInput
+                                value={node.actionsData.transformValue}
+                                onChange={(e) => setActionsData("transformValue", e)}
+                            />
+                        </InputGroup>
+                    )}
                     <NumericInputGroup
                         name="Transform Times: "
                         info="Define how many times the button can be clicked to apply the transform. After the set limit, other 'After Click Action' tasks will be triggered."
