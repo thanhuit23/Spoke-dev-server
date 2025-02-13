@@ -196,6 +196,7 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
      */
     copy(source, recursive = true) {
         super.copy(source, recursive);
+        const actionsData = { ...source.actionsData };
         Object.assign(this, {
             controls: source.controls,
             billboard: source.billboard,
@@ -208,7 +209,7 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             triggerName: source.triggerName,
             triggerValue: source.triggerValue,
             actionsAfterClick: source.actionsAfterClick,
-            actionsData: source.actionsData
+            actionsData: actionsData
         });
         return this;
     }
