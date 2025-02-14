@@ -144,8 +144,8 @@ export function createEditor(api, settings) {
   // Thanh add
   editor.registerNode(IFrameImageNode, IFrameImageNodeEditor);
   editor.registerNode(PDFViewerNode, PDFViewerNodeEditor);
-  editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
-  editor.registerNode(InteractiveAreaNode, InteractiveAreaNodeEditor);
+  // editor.registerNode(AnimationControlNode, AnimationControlNodeEditor);
+  // editor.registerNode(InteractiveAreaNode, InteractiveAreaNodeEditor);
   // editor.registerNode(SnapFrameNode, SnapMediaNodeEditor);
   editor.registerNode(ImageButtonNode, ImageButtonNodeEditor);
   ////
