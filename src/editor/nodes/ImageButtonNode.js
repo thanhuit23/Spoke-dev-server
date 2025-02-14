@@ -61,7 +61,8 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
                 transformTarget: "",
                 transformType: "",
                 transformValue: "0, 0, 0",
-                transformTimes: "1"
+                transformTimes: "1",
+                transformSpeed: "0.01"
             }
         });
 
@@ -93,7 +94,8 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             transformTarget: "",
             transformType: "",
             transformValue: "0, 0, 0",
-            transformTimes: "1"
+            transformTimes: "1",
+            transformSpeed: "0.01"
         };
 
         // Image display properties
