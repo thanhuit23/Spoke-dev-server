@@ -32,7 +32,7 @@ const animationTypes = [
 ];
 
 const transformTypes = [
-    // { label: "Rotate", value: "rotate" },
+    { label: "Rotate", value: "rotate" },
     // { label: "Scale", value: "scale" },
     { label: "Translate", value: "translate" }
 ];
