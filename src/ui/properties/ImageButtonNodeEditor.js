@@ -22,7 +22,8 @@ const actions = [
     { label: "Hide", value: 1 },
     { label: "Animation", value: 2 },
     { label: "Audio", value: 3 },
-    { label: "Transform", value: 4 }
+    { label: "Transform", value: 4 },
+    { label: "Visibility", value: 5 }
 ];
 
 const animationTypes = [
@@ -35,6 +36,11 @@ const transformTypes = [
     { label: "Rotate", value: "rotate" },
     // { label: "Scale", value: "scale" },
     { label: "Translate", value: "translate" }
+];
+
+const visibilityTypes = [
+    { label: "Activate", value: "activate" },
+    { label: "Deactivate", value: "deactivate" }
 ];
 
 function* treeWalker(editor) {
@@ -365,7 +371,7 @@ export default function ImageButtonNodeEditor(props) {
                         value={node.actionsData.transformTimes || 1}
                         displayPrecision={0}
                         onChange={(e) => setActionsData("transformTimes", e)}
-                        
+
                     />
                     <NumericInputGroup
                         name="Transform Speed: "
@@ -378,6 +384,27 @@ export default function ImageButtonNodeEditor(props) {
                         displayPrecision={0.0001}
                         onChange={(e) => setActionsData("transformSpeed", e)}
                     />
+                </>
+            )}
+
+
+            {node.actionsAfterClick?.some(action => action.value === 5) && (
+                <>
+
+                    <InputGroup name="Visibiltity Target" info="Select the target object for the visibility change.">
+                        <SelectInput
+                            options={targetNames}
+                            value={node.actionsData.visibilityTarget || ""}
+                            onChange={(e) => setActionsData("visibilityTarget", e)}
+                        />
+                    </InputGroup>
+                    <InputGroup name="Visibility Type" info="Select the type of visibility to apply (e.g., Activate, Deactivate).">
+                        <SelectInput
+                            options={visibilityTypes}
+                            value={node.actionsData.visibilityType || "activate"}
+                            onChange={(e) => setActionsData("visibilityType", e)}
+                        />
+                    </InputGroup>
                 </>
             )}
 
