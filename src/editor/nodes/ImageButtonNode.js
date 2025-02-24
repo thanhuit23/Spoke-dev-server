@@ -64,7 +64,7 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
                 transformTimes: "1",
                 transformSpeed: "0.01",
                 visibilityTarget: "",
-                visibilityType: "",
+                visibilityType: "activate",
             }
         });
 
@@ -99,7 +99,7 @@ export default class ImageButtonNode extends EditorNodeMixin(Mesh) {
             transformTimes: "1",
             transformSpeed: "0.01",
             visibilityTarget: "",
-            visibilityType: "",
+            visibilityType: "activate",
         };
 
         // Image display properties
