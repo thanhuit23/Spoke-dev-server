@@ -13,9 +13,15 @@ import NumericInputGroup from "../inputs/NumericInputGroup";
 // Constants for dropdown options
 const triggerTypes = [
     { label: "Scenario", value: "scenario" },
+    { label: "NPC", value: "npc" },
     // { label: "Link", value: "link" },
     // { label: "Iframe", value: "iframe" },
     // { label: "Animation", value: "animation" }
+];
+
+const npcNames = [
+    { label: "Voice", value: "voice" },
+    { label: "Text", value: "text" }
 ];
 
 const actions = [
@@ -274,6 +280,31 @@ export default function ImageButtonNodeEditor(props) {
                         <SelectInput
                             options={animationTypes}
                             value={node.triggerValue}
+                            onChange={onChangeTriggerValue}
+                        />
+                    </InputGroup>
+                </>
+            )}
+
+            {node.triggerType === "npc" && (
+                <>
+                    <InputGroup name="NPC Target" info="Specify the target NPC to trigger.">
+                        <SelectInput
+                            options={targetNames}
+                            value={node.triggerTarget || ""}
+                            onChange={handleTriggerTargetChange}
+                        />
+                    </InputGroup>
+                    <InputGroup name="NPC Name" info="Select the name of NPC to trigger (e.g., Voice, Text).">
+                        <SelectInput
+                            options={npcNames}
+                            value={node.triggerName || ""}
+                            onChange={onChangeTriggerName}
+                        />
+                    </InputGroup>
+                    <InputGroup name="NPC API" info="Enter the API URL for the NPC (https).">
+                        <StringInput
+                            value={node.triggerValue || ""}
                             onChange={onChangeTriggerValue}
                         />
                     </InputGroup>
