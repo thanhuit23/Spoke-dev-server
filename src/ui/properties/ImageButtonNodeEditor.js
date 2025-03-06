@@ -304,7 +304,7 @@ export default function ImageButtonNodeEditor(props) {
                     </InputGroup>
                     <InputGroup name="NPC API" info="Enter the API URL for the NPC (https).">
                         <StringInput
-                            value={node.triggerValue || ""}
+                            value={node.triggerValue || "https://coastal-fails-warren-co.trycloudflare.com/process_audio"}
                             onChange={onChangeTriggerValue}
                         />
                     </InputGroup>
