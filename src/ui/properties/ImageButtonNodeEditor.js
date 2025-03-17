@@ -29,7 +29,8 @@ const actions = [
     { label: "Animation", value: 2 },
     { label: "Audio", value: 3 },
     { label: "Transform", value: 4 },
-    { label: "Visibility", value: 5 }
+    { label: "Visibility", value: 5 },
+    { label: "Navigation", value: 6 }
 ];
 
 const animationTypes = [
@@ -47,6 +48,10 @@ const transformTypes = [
 const visibilityTypes = [
     { label: "Activate", value: "activate" },
     { label: "Deactivate", value: "deactivate" }
+];
+
+const navigationTypes = [
+    { label: "Room", value: "room" }
 ];
 
 function* treeWalker(editor) {
@@ -434,6 +439,23 @@ export default function ImageButtonNodeEditor(props) {
                             options={visibilityTypes}
                             value={node.actionsData.visibilityType || "activate"}
                             onChange={(e) => setActionsData("visibilityType", e)}
+                        />
+                    </InputGroup>
+                </>
+            )}
+
+            {node.actionsAfterClick?.some(action => action.value === 6) && (
+                <>
+                    <InputGroup name="Navigation Type" info="Select the type of navigation to apply (e.g., Room).">
+                        <SelectInput
+                            options={navigationTypes}
+                            value={node.actionsData.navigationType || "room"}
+                            onChange={(e) => setActionsData("navigationType", e)}
+                        />
+                    </InputGroup>
+                    <InputGroup name="Navigation Target" info="Select the target address for the navigation.">                        <StringInput
+                            value={node.actionsData.navigationTarget || ""}
+                            onChange={(e) => setActionsData("navigationTarget", e)}
                         />
                     </InputGroup>
                 </>
