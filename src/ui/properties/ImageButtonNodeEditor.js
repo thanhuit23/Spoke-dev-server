@@ -30,7 +30,8 @@ const actions = [
     { label: "Audio", value: 3 },
     { label: "Transform", value: 4 },
     { label: "Visibility", value: 5 },
-    { label: "Navigation", value: 6 }
+    { label: "Navigation", value: 6 },
+    { label: "Single Animation", value: 7 }
 ];
 
 const animationTypes = [
@@ -374,6 +375,35 @@ export default function ImageButtonNodeEditor(props) {
                 </>
             )}
 
+            {node.actionsAfterClick?.some(action => action.value === 7) && (
+                <>
+                    <InputGroup name="Play a single animation" info="Play a single animation in the scene.">
+
+                    </InputGroup>
+                    <InputGroup name="Animation Target" info="Select the action triggered by interacting with the image.">
+                        <SelectInput
+                            options={targetNames}
+                            value={node.actionsData.animationTarget}
+                            onChange={(e) => handleAnimationTargetChange(e)}
+                        />
+                    </InputGroup>
+                    <InputGroup name="Animation Name" info="Enter the name of the animation to trigger.">
+                        <SelectInput
+                            options={targetActionAnimationNames}
+                            value={node.actionsData.animationName}
+                            onChange={(e) => setActionsData("animationName", e)}
+                        />
+                    </InputGroup>
+                    <InputGroup name="Animation Type" info="Select the action to perform for the animation (e.g., Loop, Play, Stop).">
+                        <SelectInput
+                            options={animationTypes}
+                            value={node.actionsData.animationValue}
+                            onChange={(e) => setActionsData("animationValue", e)}
+                        />
+                    </InputGroup>
+                </>
+            )}
+
             {/* Additional inputs based on selected actions */}
             {node.actionsAfterClick?.some(action => action.value === 4) && (
                 <>
@@ -454,9 +484,9 @@ export default function ImageButtonNodeEditor(props) {
                         />
                     </InputGroup>
                     <InputGroup name="Navigation Target" info="Select the target address for the navigation.">                        <StringInput
-                            value={node.actionsData.navigationTarget || ""}
-                            onChange={(e) => setActionsData("navigationTarget", e)}
-                        />
+                        value={node.actionsData.navigationTarget || ""}
+                        onChange={(e) => setActionsData("navigationTarget", e)}
+                    />
                     </InputGroup>
                 </>
             )}
