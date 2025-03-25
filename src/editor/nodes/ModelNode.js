@@ -403,10 +403,7 @@ export default class ModelNode extends EditorNodeMixin(Model) {
   prepareForExport(ctx) {
     super.prepareForExport();
 
-    this.addGLTFComponent("shadow", {
-      cast: this.castShadow,
-      receive: this.receiveShadow
-    });
+    
 
     const clipIndices = this.activeClipIndices.map(index => {
       return ctx.animations.indexOf(this.model.animations[index]);
@@ -436,6 +433,12 @@ export default class ModelNode extends EditorNodeMixin(Model) {
         clipNames: allClipNames
       });
     }
+    this.addGLTFComponent("shadow", {
+      cast: this.castShadow,
+      receive: this.receiveShadow,
+      allClipIndices: allClipIndices,
+      allClipNames: allClipNames
+    });
 
     if (this.billboard) {
       this.addGLTFComponent("billboard", {});
